@@ -1,0 +1,14 @@
+<Project Sdk="WixToolset.Sdk/6.0.2">
+  <PropertyGroup>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <AppVersion Condition="'$(AppVersion)' == ''">1.0.0</AppVersion>
+    <AppExecutable Condition="'$(AppExecutable)' == ''">$(MSBuildThisFileDirectory)..\src\CrazyTimer\bin\Release\net10.0-windows\win-x64\publish\CrazyTimer.exe</AppExecutable>
+    <DefineConstants>$(DefineConstants);AppVersion=$(AppVersion);AppExecutable=$(AppExecutable)</DefineConstants>
+    <OutputName>CrazyTimer-$(AppVersion)-x64</OutputName>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <SuppressPdbOutput>true</SuppressPdbOutput>
+  </PropertyGroup>
+  <Target Name="CheckAppExecutable" BeforeTargets="CoreCompile">
+    <Error Condition="!Exists('$(AppExecutable)')" Text="Publish CrazyTimer with the Standalone profile before building the MSI, or set AppExecutable to an existing release executable." />
+  </Target>
+</Project>

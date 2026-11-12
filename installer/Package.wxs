@@ -1,0 +1,36 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="Crazy Timer"
+           Manufacturer="Crazy Timer"
+           Version="$(var.AppVersion)"
+           UpgradeCode="D39F8C0D-459A-4C48-A36D-3EC8ED34E425"
+           Scope="perUser"
+           InstallerVersion="500">
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Crazy Timer is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <StandardDirectory Id="LocalAppDataFolder">
+      <Directory Id="UserProgramsFolder" Name="Programs">
+        <Directory Id="INSTALLFOLDER" Name="Crazy Timer">
+          <Component Id="Application" Guid="E493F1E2-F221-4078-A8A6-9957F6EE4A62">
+            <File Id="ApplicationExe" Source="$(var.AppExecutable)" Name="CrazyTimer.exe" />
+            <Shortcut Id="StartMenuShortcut"
+                      Directory="ProgramMenuFolder"
+                      Name="Crazy Timer"
+                      Target="[#ApplicationExe]"
+                      WorkingDirectory="INSTALLFOLDER" />
+            <RemoveFolder Id="RemoveInstallFolder" On="uninstall" />
+            <RemoveFolder Id="RemoveProgramsFolder" Directory="UserProgramsFolder" On="uninstall" />
+            <RegistryValue Root="HKCU"
+                           Key="Software\CrazyTimer"
+                           Name="Installed"
+                           Type="integer"
+                           Value="1"
+                           KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+    </StandardDirectory>
+    <Feature Id="Main" Title="Crazy Timer">
+      <ComponentRef Id="Application" />
+    </Feature>
+  </Package>
+</Wix>
